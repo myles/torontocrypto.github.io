@@ -1,0 +1,49 @@
+---
+layout: default
+permalink: /contact/
+---
+
+<form action="https://formspree.io/{{ site.email }}" id="contact-form">
+	<div class="row">
+		<div class="large-12 columns">
+			<label>Email
+				<input type="email" name="_replyto" placeholder="user@example.org">
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<label>Message
+				<textarea name="_message" id="id_message_raw" placeholder="Hello, World!"></textarea>
+				<input type="hidden" name="message" id="id_message_pgp">
+			</label>
+		</div>
+	</div>
+	<input type="text" name="_gotcha" style="display:none" />
+	<input type="hidden" name="_subject" value="New submission on TorontoCrypto!">
+	<input type="hidden" name="_next" value="{{ "/contact/thanks/" | prepend site.url }}" />
+	<input type="submit" value="Send">
+</form>
+
+<script type="text/javascript" src="{{ '/js/openpgp.min.js' | prepend: site.baseurl }}"></script>
+
+<script type="text/javascript">
+	$("#contact-form").submit(function(e) {
+		// Get the value of the textarea.
+		var messageClear = $("#id_message_raw").val();
+		
+		// Remove the textarea.
+		$("#id_message_raw").remove();
+		
+		var opengpg = require('openpgp');
+		
+		// Get the public key.
+		var key = '{% include tc_public.key %}';
+		var publicKey = openpgp.key.readArmored(key);
+		
+		// Encrypt the message for sending.
+		openpgp.encryptMessage(publicKey, messageClear).then(function(pgpMessage){
+			$("#id_message_pgp").val(pgpMessage);
+		});
+	});
+</script>
