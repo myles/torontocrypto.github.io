@@ -13,6 +13,13 @@ permalink: /contact/
 	</div>
 	<div class="row">
 		<div class="large-12 columns">
+			<label>Fingerprint
+				<input type="fingerprint" name="fingerprint" placeholder="F7C7BFE3">
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
 			<label>Message
 				<textarea name="_message" id="id_message_raw" placeholder="Hello, World!"></textarea>
 				<input type="hidden" name="message" id="id_message_pgp">
@@ -38,7 +45,7 @@ permalink: /contact/
 		var opengpg = require('openpgp');
 		
 		// Get the public key.
-		var key = '{% include tc_public.key %}';
+		var key = '{% include tc_public.gpg %}';
 		var publicKey = openpgp.key.readArmored(key);
 		
 		// Encrypt the message for sending.
