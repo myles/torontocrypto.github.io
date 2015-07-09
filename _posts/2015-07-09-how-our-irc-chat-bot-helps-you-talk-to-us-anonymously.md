@@ -2,6 +2,7 @@
 title: How our IRC chat bot helps you talk to us anonymously
 date: 2015-07-09 11:00:00 EDT
 category: blog
+layout: post
 author: m
 ---
 
